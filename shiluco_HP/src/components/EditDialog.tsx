@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import React, { useState, useEffect } from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 interface EditDialogProps {
   open: boolean;
@@ -13,8 +13,20 @@ interface EditDialogProps {
   onSave: (newOptions: string[]) => void;
 }
 
-const EditDialog: React.FC<EditDialogProps> = ({ open, onClose, options, onSave }) => {
+const EditDialog: React.FC<EditDialogProps> = ({
+  open,
+  onClose,
+  options,
+  onSave,
+}) => {
   const [editOptions, setEditOptions] = useState<string[]>(options);
+
+  // ダイアログが開いたときにローカルストレージからデータを読み込む
+  useEffect(() => {
+    if (open) {
+      setEditOptions(options);
+    }
+  }, [open, options]);
 
   const handleChange = (index: number, newText: string) => {
     const newEditOptions = [...editOptions];
@@ -24,6 +36,7 @@ const EditDialog: React.FC<EditDialogProps> = ({ open, onClose, options, onSave 
 
   const handleSave = () => {
     onSave(editOptions);
+    localStorage.setItem("editOptions", JSON.stringify(editOptions)); // ローカルストレージに保存
     onClose();
   };
 

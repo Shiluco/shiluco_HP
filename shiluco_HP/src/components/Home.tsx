@@ -7,15 +7,24 @@ import Button from '@mui/material/Button';
 import EditDialog from './EditDialog'; // ここでインポート
 
 
-const Home: React.FC = () => {
+const Home: React.FC = () =>
+{
+  
+
+
   const [selections, setSelections] = useState<string[]>([]);
-  const [options, setOptions] = useState<string[]>([
-    '浜松駅/遠鉄バス',
-    '田町中央通り/遠鉄バス',
-    '市役所南/遠鉄バス',
-    '六間坂上/遠鉄バス',
-    'イオンモール浜松市野/遠鉄バス',
-  ]);
+  const [options, setOptions] = useState<string[]>(() => {
+    const storedOptions = localStorage.getItem("editOptions");
+    return storedOptions
+      ? (JSON.parse(storedOptions) as string[])
+      : [
+          "浜松駅/遠鉄バス",
+          "田町中央通り/遠鉄バス",
+          "市役所南/遠鉄バス",
+          "六間坂上/遠鉄バス",
+          "イオンモール浜松市野/遠鉄バス",
+        ]; // 初期値を設定
+  });
 
   const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
 
