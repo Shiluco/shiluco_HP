@@ -2,6 +2,21 @@
     max-width: 1280px;
     margin: 0 auto;
     padding: 2rem;
+    --main-text-color: #000000;
+}
+
+#head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: auto;
+
+}
+
+#edit{
+    
+        width: 40px;
+        height: auto;
 }
 
 #stations {
@@ -9,6 +24,7 @@
     flex-direction: column;
     justify-content: center;
 }
+
 
 #go_button {
     margin-top: 1rem;
@@ -18,4 +34,5 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
+    color: var(--main-text-color);
 }
