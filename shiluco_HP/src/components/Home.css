@@ -3,36 +3,76 @@
     margin: 0 auto;
     padding: 2rem;
     --main-text-color: #000000;
+    background-color: white;
+    color: var(--main-text-color);
+    /* ここでテキストカラーを明示的に設定 */
 }
 
-#head{
+#head {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: auto;
-
+    color: var(--main-text-color);
+    /* ここでテキストカラーを明示的に設定 */
 }
 
-#edit{
-    
-        width: 40px;
-        height: auto;
+#edit {
+    width: 40px;
+    height: auto;
+}
+
+#start {
+    width: 40px;
+    height: auto;
+}
+
+#goal {
+    width: 40px;
+    height: auto;
 }
 
 #stations {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: var(--main-text-color);
+    /* ここでテキストカラーを明示的に設定 */
 }
 
-
-#go_button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
+.station-container {
+    display: flex;
+    justify-content: space-between;
+    /* 両端に寄せる */
+    align-items: center;
+    margin: 0.5rem 0;
     color: var(--main-text-color);
+    padding: auto;
+    /* ここでテキストカラーを明示的に設定 */
+}
+
+.station-item,
+.station-drop-area {
+    padding: 1rem;
+    margin: 0 1rem;
+    cursor: pointer;
+    display: inline-block;
+    color: var(--main-text-color);
+    /* ここでテキストカラーを明示的に設定 */
+}
+
+.station-item.dragging {
+    opacity: 0.5;
+}
+
+.station-drop-area {
+    border-radius: 0;
+    /* 四角 */
+    color: var(--main-text-color);
+    /* ここでテキストカラーを明示的に設定 */
+}
+
+.station-drop-area.over {
+    border-color: #ffab40;
+    background-color: #ffe0b2;
 }
