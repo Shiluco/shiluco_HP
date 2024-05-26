@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
-import './Home.css';
-import edit from '../assets/edit.svg';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Button from '@mui/material/Button';
-import EditDialog from './EditDialog'; // ここでインポート
+import React, { useState } from "react";
+import "./Home.css";
+import edit from "../assets/edit.svg";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Button from "@mui/material/Button";
+import EditDialog from "./EditDialog"; // ここでインポート
 
-
-const Home: React.FC = () =>
-{
-  
-
-
+const Home: React.FC = () => {
   const [selections, setSelections] = useState<string[]>([]);
   const [options, setOptions] = useState<string[]>(() => {
     const storedOptions = localStorage.getItem("editOptions");
@@ -30,22 +25,19 @@ const Home: React.FC = () =>
 
   const handleCheckboxChange = (option: string) => {
     setSelections((prevSelections) => {
-      if (prevSelections.includes(option)) {
-        return prevSelections.filter((item) => item !== option);
-      } else {
-        return [...prevSelections, option];
-      }
-    });
-  };
+      const newSelections = prevSelections.includes(option)
+        ? prevSelections.filter((item) => item !== option)
+        : [...prevSelections, option];
 
-  const handleClick = () => {
-    const uniqueSelections = Array.from(new Set(selections));
-    if (uniqueSelections.length === 2) {
-      const start = encodeURIComponent(uniqueSelections[0]);
-      const goal = encodeURIComponent(uniqueSelections[1]);
-      const url = `https://transit.yahoo.co.jp/search/result?flatlon=&fromgid=&from=${start}&to=${goal}&viacode=&via=&viacode=&via=&viacode=&via=&type=1&ticket=ic&expkind=1&ws=3&s=0&al=1&shin=1&ex=1&hb=1&lb=1&sr=1`;
-      window.location.href = url;
-    }
+      if (newSelections.length === 2) {
+        const start = encodeURIComponent(newSelections[0]);
+        const goal = encodeURIComponent(newSelections[1]);
+        const url = `https://transit.yahoo.co.jp/search/result?flatlon=&fromgid=&from=${start}&to=${goal}&viacode=&via=&viacode=&via=&viacode=&via=&type=1&ticket=ic&expkind=1&ws=3&s=0&al=1&shin=1&ex=1&hb=1&lb=1&sr=1`;
+        window.location.href = url;
+      }
+
+      return newSelections;
+    });
   };
 
   const handleEditClick = () => {
@@ -58,13 +50,13 @@ const Home: React.FC = () =>
 
   const handleSaveOptions = (newOptions: string[]) => {
     setOptions(newOptions);
-    localStorage.setItem('options', JSON.stringify(newOptions));
+    localStorage.setItem("options", JSON.stringify(newOptions));
   };
 
   return (
     <div>
       <div id="head">
-        <h1 id="title">乗換案内</h1>
+        <h1 id="title">Home</h1>
         <Button id="editButton" onClick={handleEditClick}>
           <img id="edit" src={edit} alt="edit" />
         </Button>
@@ -86,9 +78,6 @@ const Home: React.FC = () =>
             />
           ))}
         </div>
-        <Button id="go_button" variant="contained" color="primary" onClick={handleClick}>
-          Go
-        </Button>
       </div>
 
       <EditDialog
