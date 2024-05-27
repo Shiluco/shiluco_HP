@@ -1,25 +1,40 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    /* 基本の文字サイズを設定 */
+}
+
 #root {
-    max-width: 1280px;
-    margin: 0 auto;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    margin: 0;
     padding: 2rem;
     --main-text-color: #000000;
     background-color: white;
     color: var(--main-text-color);
-    /* ここでテキストカラーを明示的に設定 */
+    font-size: 1.25rem;
+    /* #root内の文字サイズを設定 */
 }
 
 #head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: auto;
+
     color: var(--main-text-color);
-    /* ここでテキストカラーを明示的に設定 */
+    font-size: 1rem;
+    /* ヘッダー内の文字サイズを設定 */
 }
 
 #edit {
     width: 40px;
     height: auto;
+    padding-right: 20px;
 }
 
 #start {
@@ -37,18 +52,18 @@
     flex-direction: column;
     justify-content: center;
     color: var(--main-text-color);
-    /* ここでテキストカラーを明示的に設定 */
+    font-size: 1.25rem;
+    /* ステーション内の文字サイズを設定 */
 }
 
 .station-container {
     display: flex;
     justify-content: space-between;
-    /* 両端に寄せる */
     align-items: center;
     margin: 0.5rem 0;
     color: var(--main-text-color);
-    padding: auto;
-    /* ここでテキストカラーを明示的に設定 */
+    font-size: 1.25rem;
+    /* ステーションコンテナ内の文字サイズを設定 */
 }
 
 .station-item,
@@ -58,7 +73,8 @@
     cursor: pointer;
     display: inline-block;
     color: var(--main-text-color);
-    /* ここでテキストカラーを明示的に設定 */
+    font-size: 1.25rem;
+    /* ステーションアイテムとドロップエリア内の文字サイズを設定 */
 }
 
 .station-item.dragging {
@@ -67,9 +83,9 @@
 
 .station-drop-area {
     border-radius: 0;
-    /* 四角 */
     color: var(--main-text-color);
-    /* ここでテキストカラーを明示的に設定 */
+    font-size: 1.25rem;
+    /* ステーションドロップエリア内の文字サイズを設定 */
 }
 
 .station-drop-area.over {
