@@ -75,4 +75,5 @@
 .station-drop-area.over {
     border-color: #ffab40;
     background-color: #ffe0b2;
+    border-radius: 10%;
 }

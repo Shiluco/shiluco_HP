@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Home.css";
+
 import edit from "../assets/edit.svg";
 import start from "../assets/start.svg";
 import goal from "../assets/goal.svg";
@@ -9,11 +10,13 @@ import { isMobile } from "react-device-detect";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
+
 import Button from "@mui/material/Button";
+
 import EditDialog from "./EditDialog"; // ここでインポート
 
 const ItemTypes = {
-  DOT: "dot",
+  BIRD: "bird",
 };
 
 interface Station {
@@ -23,9 +26,9 @@ interface Station {
 
 const Home: React.FC = () => {
   const [options, setOptions] = useState<string[]>(() => {
-    const storedOptions = localStorage.getItem("editOptions");
+    const storedOptions = localStorage.getItem("editOptions"); // ローカルストレージからデータを取得
     return storedOptions
-      ? (JSON.parse(storedOptions) as string[])
+      ? (JSON.parse(storedOptions) as string[]) // ローカルストレージにデータがあれば取得
       : [
           "浜松駅/遠鉄バス",
           "田町中央通り/遠鉄バス",
@@ -35,9 +38,8 @@ const Home: React.FC = () => {
         ]; // 初期値を設定
   });
 
-  const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false);
-  const [draggingStation, setDraggingStation] = useState<string | null>(null); // ドラッグ中の駅名を管理するためのステート
-  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [editDialogOpen, setEditDialogOpen] = useState<boolean>(false); // 編集ダイアログの表示状態を管理
+  const [draggingStation, setDraggingStation] = useState<string | null>(null); // ドラッグ中のスタートアイテムを管理,名前が入る
 
   const handleDrop = (item: Station, target: string) => {
     const newSelections = [item.name, target];
@@ -60,30 +62,29 @@ const Home: React.FC = () => {
     localStorage.setItem("editOptions", JSON.stringify(newOptions));
   };
 
-  const StationItem: React.FC<{ station: string }> = ({ station }) => {
-    const [{ isDragging: localIsDragging }, drag] = useDrag(
+  const GetStationItem: React.FC<{ station: string }> = ({ station }) => {
+    //React.FCってなんなん？
+    const [{ isDragging }, drag] = useDrag(
       () => ({
-        type: ItemTypes.DOT,
+        type: ItemTypes.BIRD,
         item: () => {
-          setDraggingStation(station); // ドラッグ開始時にステートを更新
-          setIsDragging(true);
-          return { name: station, type: ItemTypes.DOT };
+          setDraggingStation(station);
+          return { name: station, type: ItemTypes.BIRD };
         },
         end: () => {
-          setDraggingStation(null); // ドラッグ終了時にステートを更新
-          setIsDragging(false);
+          setDraggingStation(null);
         },
         collect: (monitor) => ({
           isDragging: monitor.isDragging(),
         }),
-      }),
-      [station]
+      })
+      // [station]//stationが変更されたら再レンダリング
     );
 
     return (
       <div
         ref={drag}
-        className={`station-item ${localIsDragging ? "dragging" : ""}`}
+        className={`station-item ${isDragging ? "dragging" : ""}`}
       >
         <img id="start" src={start} alt="start" />
       </div>
@@ -93,7 +94,7 @@ const Home: React.FC = () => {
   const StationDropArea: React.FC<{ station: string }> = ({ station }) => {
     const [{ isOver }, drop] = useDrop(
       () => ({
-        accept: ItemTypes.DOT,
+        accept: ItemTypes.BIRD,
         drop: (item: Station) => handleDrop(item, station),
         collect: (monitor) => ({
           isOver: monitor.isOver(),
@@ -101,6 +102,7 @@ const Home: React.FC = () => {
       }),
       [station]
     );
+
 
     return (
       <div ref={drop} className={`station-drop-area ${isOver ? "over" : ""}`}>
@@ -126,14 +128,11 @@ const Home: React.FC = () => {
             {options.map((option, index) => (
               <div key={index} className="station-container">
                 <span>{option}</span>
-                {isDragging ? (
-                  draggingStation === option ? (
-                    <StationItem station={option} />
-                  ) : (
-                    <StationDropArea station={option} />
-                  )
+
+                {!draggingStation || draggingStation === option ? (
+                  <GetStationItem station={option} />
                 ) : (
-                  <StationItem station={option} />
+                  <StationDropArea station={option} />
                 )}
               </div>
             ))}
